@@ -1,1 +1,392 @@
-Hello Joonwoo
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CPT Companion</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --primary: #2563eb;
+        --primary-soft: #dbeafe;
+        --danger: #dc2626;
+        --ok: #059669;
+        --border: #e5e7eb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .hero {
+        background: linear-gradient(115deg, #1d4ed8, #2563eb 45%, #3b82f6);
+        color: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 18px;
+      }
+
+      .hero h1 {
+        margin: 0 0 8px;
+      }
+
+      .hero p {
+        margin: 0;
+        opacity: 0.95;
+      }
+
+      .banner {
+        border: 1px solid #fca5a5;
+        background: #fef2f2;
+        color: #7f1d1d;
+        border-radius: 12px;
+        padding: 14px;
+        margin-bottom: 18px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+      }
+
+      h2 {
+        margin-top: 0;
+        font-size: 1.1rem;
+      }
+
+      .small {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: 600;
+      }
+
+      input,
+      textarea,
+      select,
+      button {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        font: inherit;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      button {
+        cursor: pointer;
+        border: none;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      button.secondary {
+        margin-top: 8px;
+        background: var(--primary-soft);
+        color: #1e3a8a;
+      }
+
+      button.ghost {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+
+      .row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .row > * {
+        flex: 1;
+      }
+
+      .status {
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: var(--ok);
+      }
+
+      .danger {
+        color: var(--danger);
+      }
+
+      ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        background: var(--primary-soft);
+        color: #1d4ed8;
+        margin-bottom: 8px;
+      }
+
+      .quote {
+        font-style: italic;
+        border-left: 3px solid var(--border);
+        padding-left: 10px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <section class="hero">
+        <h1>CPT Companion (MVP)</h1>
+        <p>
+          A simple, private starter app for Cognitive Processing Therapy homework between sessions.
+        </p>
+      </section>
+
+      <section class="banner">
+        <strong>Safety:</strong> This app is for reflection and psychoeducation only and is
+        <strong>not</strong> a crisis service or a replacement for licensed clinical care. If someone is
+        in immediate danger, call 911 (US) or contact the 988 Suicide & Crisis Lifeline.
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <span class="pill">Session Tracker</span>
+          <h2>Plan this week's CPT focus</h2>
+          <p class="small">Save locally in this browser for quick use during/after sessions.</p>
+
+          <label for="sessionNumber">Session #</label>
+          <input id="sessionNumber" type="number" min="1" max="20" placeholder="e.g., 4" />
+
+          <label for="sessionGoal">Main goal</label>
+          <textarea id="sessionGoal" rows="3" placeholder="What skill are we practicing? (e.g., challenging over-accommodation)"></textarea>
+
+          <label for="homework">Homework</label>
+          <textarea id="homework" rows="3" placeholder="What should the client complete before next session?"></textarea>
+
+          <button id="savePlan">Save plan</button>
+          <p id="planStatus" class="status"></p>
+        </article>
+
+        <article class="card">
+          <span class="pill">Stuck Point Log</span>
+          <h2>Capture and challenge a thought</h2>
+          <p class="small">A concise CPT-style worksheet users can repeat daily.</p>
+
+          <label for="situation">Situation</label>
+          <textarea id="situation" rows="2" placeholder="What happened?"></textarea>
+
+          <label for="stuckPoint">Stuck point</label>
+          <textarea id="stuckPoint" rows="2" placeholder="What belief showed up?"></textarea>
+
+          <div class="row">
+            <div>
+              <label for="emotion">Emotion</label>
+              <input id="emotion" placeholder="e.g., shame" />
+            </div>
+            <div>
+              <label for="intensity">Intensity (0-100)</label>
+              <input id="intensity" type="number" min="0" max="100" placeholder="70" />
+            </div>
+          </div>
+
+          <label for="evidenceFor">Evidence supporting the belief</label>
+          <textarea id="evidenceFor" rows="2"></textarea>
+
+          <label for="evidenceAgainst">Evidence against the belief</label>
+          <textarea id="evidenceAgainst" rows="2"></textarea>
+
+          <label for="balancedThought">Balanced thought</label>
+          <textarea id="balancedThought" rows="3" placeholder="A more accurate and compassionate statement"></textarea>
+
+          <button id="saveEntry">Save entry</button>
+          <p id="entryStatus" class="status"></p>
+        </article>
+
+        <article class="card">
+          <span class="pill">Progress</span>
+          <h2>Review saved entries</h2>
+          <p class="small">Use this to discuss patterns in session.</p>
+          <div id="entriesWrap" class="small">No entries yet.</div>
+          <button id="clearData" class="ghost">Clear all local data</button>
+          <p class="small danger">This removes all saved plans and logs from this browser.</p>
+        </article>
+
+        <article class="card">
+          <span class="pill">Coach Prompt</span>
+          <h2>Daily reflection cue</h2>
+          <p class="quote" id="promptText">
+            Which stuck point felt strongest today, and what would your therapist ask you to examine?
+          </p>
+          <button id="newPrompt" class="secondary">Get another prompt</button>
+          <ul class="small">
+            <li>This can become a guided journaling flow.</li>
+            <li>Next step: add therapist/client accounts and secure backend storage.</li>
+            <li>For production, implement HIPAA-ready infrastructure and legal review.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const STORAGE_KEYS = {
+        plan: "cpt_plan",
+        entries: "cpt_entries"
+      };
+
+      const prompts = [
+        "What is one all-or-nothing belief you can rewrite with nuance today?",
+        "If a friend had this same thought, what evidence would you help them consider?",
+        "How did this belief affect your behavior, and what alternative action fits your values?",
+        "What changed in your emotion intensity after writing a balanced thought?",
+        "Which theme is most active right now: safety, trust, power/control, esteem, or intimacy?"
+      ];
+
+      const sessionNumber = document.getElementById("sessionNumber");
+      const sessionGoal = document.getElementById("sessionGoal");
+      const homework = document.getElementById("homework");
+      const savePlan = document.getElementById("savePlan");
+      const planStatus = document.getElementById("planStatus");
+
+      const fields = {
+        situation: document.getElementById("situation"),
+        stuckPoint: document.getElementById("stuckPoint"),
+        emotion: document.getElementById("emotion"),
+        intensity: document.getElementById("intensity"),
+        evidenceFor: document.getElementById("evidenceFor"),
+        evidenceAgainst: document.getElementById("evidenceAgainst"),
+        balancedThought: document.getElementById("balancedThought")
+      };
+
+      const saveEntry = document.getElementById("saveEntry");
+      const entryStatus = document.getElementById("entryStatus");
+      const entriesWrap = document.getElementById("entriesWrap");
+      const clearData = document.getElementById("clearData");
+      const promptText = document.getElementById("promptText");
+      const newPrompt = document.getElementById("newPrompt");
+
+      function loadPlan() {
+        const raw = localStorage.getItem(STORAGE_KEYS.plan);
+        if (!raw) return;
+        const plan = JSON.parse(raw);
+        sessionNumber.value = plan.sessionNumber || "";
+        sessionGoal.value = plan.sessionGoal || "";
+        homework.value = plan.homework || "";
+      }
+
+      function savePlanData() {
+        const payload = {
+          sessionNumber: sessionNumber.value,
+          sessionGoal: sessionGoal.value,
+          homework: homework.value,
+          updatedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEYS.plan, JSON.stringify(payload));
+        planStatus.textContent = "Plan saved locally.";
+      }
+
+      function readEntries() {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.entries) || "[]");
+      }
+
+      function saveEntryData() {
+        const next = {
+          id: crypto.randomUUID(),
+          createdAt: new Date().toISOString(),
+          ...Object.fromEntries(Object.entries(fields).map(([k, el]) => [k, el.value]))
+        };
+
+        if (!next.situation || !next.stuckPoint || !next.balancedThought) {
+          entryStatus.textContent = "Please fill situation, stuck point, and balanced thought.";
+          entryStatus.classList.add("danger");
+          return;
+        }
+
+        const entries = readEntries();
+        entries.unshift(next);
+        localStorage.setItem(STORAGE_KEYS.entries, JSON.stringify(entries.slice(0, 15)));
+
+        Object.values(fields).forEach((el) => (el.value = ""));
+        entryStatus.textContent = "Entry saved.";
+        entryStatus.classList.remove("danger");
+        renderEntries();
+      }
+
+      function renderEntries() {
+        const entries = readEntries();
+        if (!entries.length) {
+          entriesWrap.textContent = "No entries yet.";
+          return;
+        }
+
+        entriesWrap.innerHTML = entries
+          .map((entry) => {
+            const date = new Date(entry.createdAt).toLocaleString();
+            return `
+              <div style="padding:10px 0;border-top:1px solid var(--border)">
+                <strong>${date}</strong>
+                <div><strong>Situation:</strong> ${entry.situation}</div>
+                <div><strong>Stuck point:</strong> ${entry.stuckPoint}</div>
+                <div><strong>Balanced thought:</strong> ${entry.balancedThought}</div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function clearAll() {
+        localStorage.removeItem(STORAGE_KEYS.plan);
+        localStorage.removeItem(STORAGE_KEYS.entries);
+        planStatus.textContent = "All local data cleared.";
+        entryStatus.textContent = "";
+        entriesWrap.textContent = "No entries yet.";
+      }
+
+      function randomPrompt() {
+        promptText.textContent = prompts[Math.floor(Math.random() * prompts.length)];
+      }
+
+      savePlan.addEventListener("click", savePlanData);
+      saveEntry.addEventListener("click", saveEntryData);
+      clearData.addEventListener("click", clearAll);
+      newPrompt.addEventListener("click", randomPrompt);
+
+      loadPlan();
+      renderEntries();
+    </script>
+  </body>
+</html>
